@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
 app.get('/public/:nome_imagem', downloadImagem);
 
 //CRUD Imagens
-app.post('/imagem', inserindoImagem);
+app.post('/imagem, inserindoImagem');
 
 app.listen(porta, () => {
     console.log(`API Rodando na porta ${porta}`);
