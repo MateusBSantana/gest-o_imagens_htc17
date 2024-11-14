@@ -4,6 +4,7 @@ import {
   showOneUsuario,
   updateUsuario,
   deleteUsuario,
+  getUserByLoginPassword,
 } from "../models/usuarioModel.js";
 
 export async function criarUsuario(req, res) {
@@ -57,12 +58,13 @@ export async function mostrarUmUsuario(req, res) {
 export async function atualizarUsuario(req, res) {
     console.log('UsuarioController :: atualizarUsuario');
     const {login, senha} = req.body;
+    const {id_usuario} = req.params;
 
     if (!login || !senha) {
         res.status(400).json({ message: 'login e senha devem ser criados' });
     } else {
         try {
-            const [status, resposta] = await updateUsuario(login, senha);
+            const [status, resposta] = await updateUsuario(login,senha,id_usuario);
             res.status(status).json(resposta);
         } catch (error) {
             console.log('UsuarioControler :: atualizarUsuario');
@@ -86,4 +88,20 @@ export async function deletarUsuario(req, res) {
             res.status(500).json({ message: "UsuarioController :: erro ao deletarUsuario" });
         }
     }
+}
+
+export async function logarUsuario(req, res) {
+  console.log('UsuarioController :: logarUsuario');
+  const { login,senha } = req.body;
+
+  if (!login || !senha) {
+      res.status(400).json({ message: 'login e senha devem ser criados' });
+  } else {
+      try {
+          const [status, resposta] = await getUserByLoginPassword(login,senha);
+          res.status(status).json(resposta);
+      } catch (error) {
+          res.status(500).json({ message: "UsuarioController :: erro ao logarUsuario" });
+      }
+  }
 }
